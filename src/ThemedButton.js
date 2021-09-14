@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { ThemeContext } from "./App";
 
 export const ThemedButton = (props) => {
+  console.log("ThemedButton is rendered");
   const theme = useContext(ThemeContext);
   return (
     <button
