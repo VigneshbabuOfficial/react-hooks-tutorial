@@ -4,9 +4,5 @@ import React from "react";
 export const Toolbar = React.memo((props) => {
   console.log("Toolbar is rendered");
 
-  return (
-    <div>
-      <ThemedButton themeHandler={props.themeHandler} />
-    </div>
-  );
+  return <ThemedButton themeHandler={props.themeHandler} />;
 });

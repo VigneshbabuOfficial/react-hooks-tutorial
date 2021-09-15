@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  useRef,
+} from "react";
 import { Toolbar } from "./Toolbar";
 import Counter1 from "./Counter1";
 import Counter2 from "./Counter2";
@@ -39,8 +45,15 @@ const App = () => {
     setCount_cmp2(count_cmp2 + 1);
   }, [count_cmp2]);
 
+  let textRef = useRef();
+  const textHandler = () => {
+    console.log("textRef.current.value = " + textRef.current.value);
+  };
+
+  console.log("rendered");
   return (
     <React.Fragment>
+      <h3>useState and useEffect</h3>
       <ThemeContext.Provider value={theme}>
         <Toolbar themeHandler={themeHandler} />
         <h3>
@@ -49,10 +62,23 @@ const App = () => {
             : "Light Mode"}
         </h3>
       </ThemeContext.Provider>
+      <p>------------------------------------------------</p>
+      <h3>useCallback</h3>
       <Counter1 count={count_cmp1} />
       <button onClick={counterHandler1}>Counter - 1</button>
       <Counter2 count={count_cmp2} onClickCounter={counterHandler2} />
       <button onClick={counterHandler2}>Counter - 2</button>
+      <p>------------------------------------------------</p>
+      <h3>useMemo</h3>
+      <input type="text" ref={textRef} /> &nbsp;&nbsp;&nbsp;{" "}
+      <button onClick={textHandler}>copy</button>
+      <br />
+      <p>
+        You have typed -
+        {textRef.current && textRef.current.value
+          ? textRef.current.value.toUpperCase()
+          : ""}
+      </p>
     </React.Fragment>
   );
 };
