@@ -4,6 +4,7 @@ import React, {
   useContext,
   useCallback,
   useRef,
+  useReducer,
 } from "react";
 import { Toolbar } from "./Toolbar";
 import Counter1 from "./Counter1";
@@ -21,6 +22,40 @@ const themes = {
 };
 
 export const ThemeContext = React.createContext();
+
+const initialState = 0;
+const counterReducer = (state, action) => {
+  switch (action) {
+    case "INCREMENT":
+      return state + 1;
+
+    case "DECREMENT":
+      return state - 1;
+
+    case "RESET":
+      return initialState;
+
+    default:
+      return state;
+  }
+};
+
+const initialStateObj = { counter: 0 };
+const counterReducerObj = (state, action) => {
+  switch (action) {
+    case "INCREMENT":
+      return { counter: state.counter + 1 };
+
+    case "DECREMENT":
+      return { counter: state.counter - 1 };
+
+    case "RESET":
+      return initialStateObj;
+
+    default:
+      return state;
+  }
+};
 
 // useCallback should be used for handler and React.memo should be used for respective component
 
@@ -50,6 +85,12 @@ const App = () => {
     console.log("textRef.current.value = " + textRef.current.value);
   };
 
+  const [count, dispatch] = useReducer(counterReducer, initialState);
+  const [count1, dispatch1] = useReducer(counterReducerObj, initialStateObj);
+
+
+
+  
   console.log("rendered");
   return (
     <React.Fragment>
@@ -79,6 +120,18 @@ const App = () => {
           ? textRef.current.value.toUpperCase()
           : ""}
       </p>
+      <p>------------------------------------------------</p>
+      <h3>useReducer</h3>
+      <h3>Count - {count}</h3>
+      <button onClick={() => dispatch("INCREMENT")}>Increment</button>
+      <button onClick={() => dispatch("DECREMENT")}>Decrement</button>
+      <button onClick={() => dispatch("RESET")}>Reset</button>
+      <p>------------------------------------------------</p>
+      <h3>useReducer (complex state & action)</h3>
+      <h3>Count - {count1.counter}</h3>
+      <button onClick={() => dispatch1("INCREMENT")}>Increment</button>
+      <button onClick={() => dispatch1("DECREMENT")}>Decrement</button>
+      <button onClick={() => dispatch1("RESET")}>Reset</button>
     </React.Fragment>
   );
 };
